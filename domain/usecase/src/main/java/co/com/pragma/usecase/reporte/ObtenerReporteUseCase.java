@@ -6,6 +6,8 @@ import co.com.pragma.model.reporte.gateways.ReporteRepository;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
 
+import java.math.BigDecimal;
+
 @RequiredArgsConstructor
 public class ObtenerReporteUseCase {
     private final ReporteRepository reporteRepository;
@@ -14,6 +16,7 @@ public class ObtenerReporteUseCase {
                 .defaultIfEmpty(Reporte.builder()
                         .id("TOTAL_SOLICITUDES_APROBADAS")
                         .totalAprobadas(0L)
+                        .montoTotalAprobado(BigDecimal.ZERO)
                         .build());
     }
 }

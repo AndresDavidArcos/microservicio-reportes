@@ -12,6 +12,7 @@ import software.amazon.awssdk.services.dynamodb.DynamoDbAsyncClient;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 import software.amazon.awssdk.services.dynamodb.model.UpdateItemRequest;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 @Repository
@@ -36,12 +37,15 @@ public class ReporteRepositoryAdapter extends TemplateAdapterOperations<Reporte,
     }
 
     @Override
-    public Mono<Void> incrementarContador() {
+    public Mono<Void> incrementarContadorYSumarMonto(BigDecimal monto) {
         UpdateItemRequest request = UpdateItemRequest.builder()
                 .tableName(this.tableName)
                 .key(Map.of("id", AttributeValue.builder().s(ID_REPORTE).build()))
-                .updateExpression("ADD totalAprobadas :inc")
-                .expressionAttributeValues(Map.of(":inc", AttributeValue.builder().n("1").build()))
+                .updateExpression("ADD totalAprobadas :inc, montoTotalAprobado :monto")
+                .expressionAttributeValues(Map.of(
+                        ":inc", AttributeValue.builder().n("1").build(),
+                        ":monto", AttributeValue.builder().n(monto.toString()).build()
+                ))
                 .build();
 
         return Mono.fromFuture(connectionFactory.updateItem(request)).then();
