@@ -1,8 +1,7 @@
 package co.com.pragma.api.security;
 
 
-import co.com.pragma.api.config.SecretsProvider;
-import co.com.pragma.model.exception.ConfigurationException;
+import co.com.pragma.secretsprovider.SecretsProvider;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;

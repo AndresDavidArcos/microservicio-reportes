@@ -1,4 +1,4 @@
-package co.com.pragma.api.config;
+package co.com.pragma.secretsprovider;
 import co.com.bancolombia.secretsmanager.api.GenericManagerAsync;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -22,7 +22,10 @@ public class SecretsProvider {
     @Value("${aws.secretName}")
     private String secretName;
 
+
     private String jwtSecret;
+    private String serviceUserEmail;
+    private String serviceUserPassword;
 
     @SneakyThrows
     @PostConstruct
@@ -32,8 +35,9 @@ public class SecretsProvider {
         JsonObject secretJson = gson.fromJson(secretValueJson, JsonObject.class);
 
         this.jwtSecret = secretJson.get("JWT_SECRET").getAsString();
+        this.serviceUserEmail = secretJson.get("SERVICE_USER_EMAIL").getAsString();
+        this.serviceUserPassword = secretJson.get("SERVICE_USER_PASSWORD").getAsString();
 
         log.info("Secretos cargados exitosamente.");
     }
-
 }
