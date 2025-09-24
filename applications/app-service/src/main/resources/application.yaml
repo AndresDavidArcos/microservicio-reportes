@@ -17,10 +17,15 @@ adapter:
   jwt:
     secret: "${JWT_SECRET}"
     expiration-ms: 28800000
+  scheduler:
+    destinatario-reporte: "${DESTINATARIO_REPORTE:andretitauro@gmail.com}"
+  ses:
+    remitente-reporte: "${REMITENTE_REPORTE:andretitauro@gmail.com}"
 aws:
   dynamodb:
     endpoint: ""
   region: "${AWS_REGION:us-east-2}"
+  secretName: "crediya"
 entrypoint:
   sqs:
     region: "${AWS_REGION:us-east-2}"
@@ -39,4 +44,4 @@ management:
       probes:
         enabled: true
 cors:
-  allowed-origins: "http://localhost:4200,http://localhost:8080"
+  allowed-origins: "*"

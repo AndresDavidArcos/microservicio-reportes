@@ -1,25 +1,34 @@
 package co.com.pragma.api.security;
 
 
+import co.com.pragma.api.config.SecretsProvider;
+import co.com.pragma.model.exception.ConfigurationException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import java.util.Date;
 
+@Slf4j
 @Component
 public class JwtUtil {
 
-    private final String jwtSecret;
+    private final SecretsProvider secretsProvider;
 
+    public JwtUtil(SecretsProvider secretsProvider) {
+        this.secretsProvider = secretsProvider;
+    }
+
+/*
     public JwtUtil(@Value("${adapter.jwt.secret}") String jwtSecret) {
         this.jwtSecret = jwtSecret;
     }
+*/
 
     private Claims getAllClaimsFromToken(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(Keys.hmacShaKeyFor(jwtSecret.getBytes()))
+                .setSigningKey(Keys.hmacShaKeyFor(secretsProvider.getJwtSecret().getBytes()))
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
