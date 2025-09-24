@@ -1,6 +1,10 @@
 apply plugin: 'org.springframework.boot'
 
 dependencies {
+	implementation project(':ses-adapter')
+	implementation project(':scheduler')
+	implementation 'com.github.bancolombia:aws-secrets-manager-async:4.4.34'
+    implementation 'software.amazon.awssdk:regions'
 	implementation project(':reactive-web')
 	implementation project(':sqs-listener')
 	implementation 'org.reactivecommons.utils:object-mapper:0.1.0'
@@ -12,6 +16,7 @@ dependencies {
     //runtimeOnly('org.springframework.boot:spring-boot-devtools')
     testImplementation 'com.tngtech.archunit:archunit:1.4.1'
     testImplementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'com.google.code.gson:gson:2.10.1'
 }
 
 tasks.register('explodedJar', Copy) {
