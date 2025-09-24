@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class ReporteProgramadoTask {
     private final GenerarYEnviarReporteUseCase generarYEnviarReporteUseCase;
 
-    @Scheduled(cron = "0 0 2 * * ?")
+    @Scheduled(cron = "0 0 17 * * ?", zone = "America/Bogota")
     public void generarReporteDiario() {
         log.info("Iniciando tarea programada: Generación de reporte diario...");
 
