@@ -11,17 +11,13 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class ReporteProgramadoTask {
-
     private final GenerarYEnviarReporteUseCase generarYEnviarReporteUseCase;
-
-    @Value("${adapter.scheduler.destinatario-reporte}")
-    private String destinatario;
 
     @Scheduled(cron = "0 0 2 * * ?")
     public void generarReporteDiario() {
         log.info("Iniciando tarea programada: Generación de reporte diario...");
 
-        generarYEnviarReporteUseCase.ejecutar(destinatario)
+        generarYEnviarReporteUseCase.ejecutar()
                 .doOnSuccess(v -> log.info("Tarea de reporte diario completada exitosamente."))
                 .doOnError(e -> log.error("Error durante la ejecución de la tarea de reporte diario.", e))
                 .subscribe();

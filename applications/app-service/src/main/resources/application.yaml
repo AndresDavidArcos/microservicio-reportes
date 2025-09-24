@@ -17,10 +17,11 @@ adapter:
   jwt:
     secret: "${JWT_SECRET}"
     expiration-ms: 28800000
-  scheduler:
-    destinatario-reporte: "${DESTINATARIO_REPORTE:andretitauro@gmail.com}"
   ses:
     remitente-reporte: "${REMITENTE_REPORTE:andretitauro@gmail.com}"
+  restconsumer:
+    timeout: 5000
+    url: "${AUTH_SERVICE_URL}"
 aws:
   dynamodb:
     endpoint: ""
@@ -43,5 +44,29 @@ management:
     health:
       probes:
         enabled: true
+  health:
+    circuitbreakers:
+      enabled: true
 cors:
   allowed-origins: "*"
+resilience4j:
+  circuitbreaker:
+    instances:
+      testGet:
+        registerHealthIndicator: true
+        failureRateThreshold: 50
+        slowCallRateThreshold: 50
+        slowCallDurationThreshold: "2s"
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 10
+        waitDurationInOpenState: "10s"
+      testPost:
+        registerHealthIndicator: true
+        failureRateThreshold: 50
+        slowCallRateThreshold: 50
+        slowCallDurationThreshold: "2s"
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 10
+        waitDurationInOpenState: "10s"
